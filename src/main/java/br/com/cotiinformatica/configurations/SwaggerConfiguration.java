@@ -19,8 +19,6 @@ public class SwaggerConfiguration {
                 .version("1.0")
                 .description("Documentação da API para gerenciamento de tarefas")
                 .contact(new Contact()
-                    .name("Seu Nome")
-                    .email("alison@email.com")
                     .url("https://github.com/a-devrepo"))
                 .license(new License()
                     .name("Apache 2.0")
