@@ -3,12 +3,37 @@ package br.com.cotiinformatica.entities;
 import java.util.Date;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+@Entity
+@Table(name = "tb_tarefa")
 public class Tarefa {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
+	
+	@Column(name = "titulo", length = 100, nullable = false)
 	private String titulo;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_hora", nullable = false)
 	private Date dataHora;
+	
+	@Column(name = "finalizado", nullable = false)
 	private Boolean finalizado;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_categoria", nullable = false)
 	private Categoria categoria;
 
 	public Tarefa() {
