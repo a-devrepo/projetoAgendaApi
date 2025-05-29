@@ -1,5 +1,7 @@
 package br.com.cotiinformatica.handlers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,21 +17,30 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Map<String, Object>> handleValidationException(
-			MethodArgumentNotValidException exception,
-			WebRequest request
-			) {
-		
-		var erros = exception.getBindingResult()
-					.getFieldErrors()
-					.stream()
-					.map(error -> "Campo: '" + error.getField() + "' : " + error.getDefaultMessage())
-					.collect(Collectors.toList());
-		
+	public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException exception,
+			WebRequest request) {
+
+		var erros = exception.getBindingResult().getFieldErrors().stream()
+				.map(error -> "Campo: '" + error.getField() + "' : " + error.getDefaultMessage())
+				.collect(Collectors.toList());
+
 		var body = new HashMap<String, Object>();
 		body.put("status", HttpStatus.BAD_REQUEST.value());
 		body.put("erros", erros);
-		
+		body.put("data-hora", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+
+		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<Map<String, Object>> handleArgumentException(IllegalArgumentException exception,
+			WebRequest request) {
+
+		var body = new HashMap<String, Object>();
+		body.put("status", HttpStatus.BAD_REQUEST.value());
+		body.put("erro", exception.getMessage());
+		body.put("data-hora", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+
 		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 	}
 }
