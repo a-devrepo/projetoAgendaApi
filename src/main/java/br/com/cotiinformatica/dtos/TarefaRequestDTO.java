@@ -25,7 +25,6 @@ public class TarefaRequestDTO {
 	private Boolean finalizado;
 
 	@NotNull(message = "Informe a categoria da tarefa.")
-
 	private UUID categoriaID;
 
 	public String getTitulo() {
