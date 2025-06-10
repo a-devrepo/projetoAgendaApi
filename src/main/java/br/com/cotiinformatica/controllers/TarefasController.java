@@ -94,7 +94,7 @@ public class TarefasController {
 		var tarefas = tarefaRepository.findAll();
 
 		return tarefas.stream().map(tarefa -> modelMapper.map(tarefa, TarefaResponseDTO.class))
-				.collect(java.util.stream.Collectors.toList()).stream()
+				.collect(Collectors.toList()).stream()
 				.collect(Collectors.collectingAndThen(Collectors.toList(), ResponseEntity::ok));
 	}
 }
